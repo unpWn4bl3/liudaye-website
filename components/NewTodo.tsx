@@ -1,11 +1,11 @@
 'use client'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import supabase from '../utils/supabase'
 
-export default ({ reload }) => {
+export default function NewTodo({ reload }: { reload: () => void }) {
     const [title, setTitle] = useState('')
 
-    const addTodo = async (e) => {
+    const addTodo = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         await supabase.from('todos').insert({ title })
         reload()

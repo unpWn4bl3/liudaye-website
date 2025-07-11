@@ -4,12 +4,17 @@ import supabase from "@/utils/supabase";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+interface Todo {
+  id: number,
+  title: string,
+}
+
 export default function Home() {
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState<Todo[]>([])
 
   const fetchTodos = async () => {
     const { data } = await supabase.from('todos').select('*')
-    setTodos(data)
+    setTodos(data!)
   }
 
   useEffect(() => {
