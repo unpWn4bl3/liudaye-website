@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '../supabase/server'
 import { ComponentType } from 'react'
 
 export function withAuth<P extends {}>(Component: ComponentType<P>) {
@@ -12,7 +12,6 @@ export function withAuth<P extends {}>(Component: ComponentType<P>) {
             redirect('/login')
         }
 
-        // @ts-expect-error -- Server Component
         return <Component {...props} />
     }
 }
