@@ -8,14 +8,13 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getPostBySlug } from '@/lib/blog'
 
 interface Props {
-    params: {
-        slug: string
-    }
+    params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     try {
-        const post = getPostBySlug(params.slug)
+        const p = await params;
+        const post = getPostBySlug(p.slug)
         return {
             title: `${post.title} - Blog`,
             description: post.description
@@ -27,10 +26,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-export default function BlogPost({ params }: Props) {
+export default async function BlogPost({ params }: Props) {
     let post;
     try {
-        post = getPostBySlug(params.slug)
+        const p = await params;
+        post = getPostBySlug(p.slug)
     } catch {
         notFound()
     }
